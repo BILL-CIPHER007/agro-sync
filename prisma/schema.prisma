@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  OPERADOR
+}
+
+enum MovementType {
+  ENTRADA
+  SAIDA
+}
+
+enum RestockStatus {
+  PENDENTE
+  APROVADO
+  RECEBIDO
+  CANCELADO
+}
+
+model User {
+  id              String           @id @default(cuid())
+  name            String
+  email           String           @unique
+  passwordHash    String
+  role            Role             @default(OPERADOR)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  stockMovements  StockMovement[]
+  restockRequests RestockRequest[]
+
+  @@index([role])
+}
+
+model AgriculturalAgent {
+  id              String           @id @default(cuid())
+  name            String
+  category        String
+  unit            String
+  description     String?
+  currentQuantity Decimal          @default(0) @db.Decimal(12, 2)
+  minimumQuantity Decimal          @default(0) @db.Decimal(12, 2)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  stockMovements  StockMovement[]
+  restockRequests RestockRequest[]
+
+  @@index([name])
+  @@index([category])
+}
+
+model StockMovement {
+  id               String             @id @default(cuid())
+  agentId          String
+  userId           String
+  restockRequestId String?
+  type             MovementType
+  quantity         Decimal            @db.Decimal(12, 2)
+  note             String?
+  createdAt        DateTime           @default(now())
+  agent            AgriculturalAgent  @relation(fields: [agentId], references: [id], onDelete: Restrict)
+  user             User               @relation(fields: [userId], references: [id], onDelete: Restrict)
+  restockRequest   RestockRequest?    @relation(fields: [restockRequestId], references: [id], onDelete: SetNull)
+
+  @@index([agentId])
+  @@index([userId])
+  @@index([type])
+  @@index([createdAt])
+}
+
+model RestockRequest {
+  id                String             @id @default(cuid())
+  agentId           String
+  userId            String
+  requestedQuantity Decimal            @db.Decimal(12, 2)
+  status            RestockStatus      @default(PENDENTE)
+  requestDate       DateTime           @default(now())
+  expectedDate      DateTime?
+  receivedDate      DateTime?
+  notes             String?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  agent             AgriculturalAgent  @relation(fields: [agentId], references: [id], onDelete: Restrict)
+  user              User               @relation(fields: [userId], references: [id], onDelete: Restrict)
+  stockMovements    StockMovement[]
+
+  @@index([agentId])
+  @@index([userId])
+  @@index([status])
+  @@index([requestDate])
+}
