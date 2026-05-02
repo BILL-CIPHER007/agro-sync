@@ -139,6 +139,9 @@ Funcionalidades:
 - Registrar entrada de estoque.
 - Registrar saida de estoque.
 - Consultar historico de movimentacoes.
+- Filtrar historico por agente agricola.
+- Filtrar historico por tipo de movimentacao.
+- Filtrar historico por periodo.
 
 Tipos de movimentacao:
 
