@@ -9,6 +9,10 @@ import { idSchema } from "@/lib/validations/shared";
 import { failure, success } from "@/lib/utils";
 import { actionFailure, BusinessError, validationFailure } from "./helpers";
 
+function parseExpirationDate(value: string | undefined) {
+  return value ? new Date(`${value}T12:00:00.000Z`) : null;
+}
+
 export async function createAgentAction(values: AgentInput) {
   await requireAdmin();
 
@@ -22,6 +26,9 @@ export async function createAgentAction(values: AgentInput) {
         category: parsed.data.category,
         unit: parsed.data.unit,
         description: parsed.data.description,
+        supplier: parsed.data.supplier,
+        shipmentNumber: parsed.data.shipmentNumber,
+        expirationDate: parseExpirationDate(parsed.data.expirationDate),
         currentQuantity: new Prisma.Decimal(parsed.data.currentQuantity),
         minimumQuantity: new Prisma.Decimal(parsed.data.minimumQuantity)
       }
@@ -30,6 +37,7 @@ export async function createAgentAction(values: AgentInput) {
     revalidatePath("/agentes");
     revalidatePath("/estoque");
     revalidatePath("/dashboard");
+    revalidatePath("/relatorios");
 
     return success("Agente agrícola cadastrado com sucesso.");
   } catch (error) {
@@ -54,6 +62,9 @@ export async function updateAgentAction(id: string, values: AgentInput) {
         category: parsed.data.category,
         unit: parsed.data.unit,
         description: parsed.data.description,
+        supplier: parsed.data.supplier,
+        shipmentNumber: parsed.data.shipmentNumber,
+        expirationDate: parseExpirationDate(parsed.data.expirationDate),
         currentQuantity: new Prisma.Decimal(parsed.data.currentQuantity),
         minimumQuantity: new Prisma.Decimal(parsed.data.minimumQuantity)
       }
@@ -62,6 +73,7 @@ export async function updateAgentAction(id: string, values: AgentInput) {
     revalidatePath("/agentes");
     revalidatePath("/estoque");
     revalidatePath("/dashboard");
+    revalidatePath("/relatorios");
 
     return success("Agente agrícola atualizado com sucesso.");
   } catch (error) {
@@ -100,6 +112,7 @@ export async function deleteAgentAction(id: string) {
 
     revalidatePath("/agentes");
     revalidatePath("/dashboard");
+    revalidatePath("/relatorios");
 
     return success("Agente agrícola excluído com sucesso.");
   } catch (error) {

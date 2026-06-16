@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Boxes, ClipboardList, LayoutDashboard, PackageSearch, Users } from "lucide-react";
+import { BarChart3, Boxes, ClipboardList, LayoutDashboard, PackageSearch, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type Role = "ADMIN" | "OPERADOR";
@@ -19,6 +19,7 @@ const navItems: NavItem[] = [
   { href: "/agentes", label: "Agentes Agrícolas", icon: PackageSearch, roles: ["ADMIN", "OPERADOR"] },
   { href: "/estoque", label: "Estoque", icon: Boxes, roles: ["ADMIN", "OPERADOR"] },
   { href: "/pedidos", label: "Pedidos", icon: ClipboardList, roles: ["ADMIN", "OPERADOR"] },
+  { href: "/relatorios", label: "Relatorios", icon: BarChart3, roles: ["ADMIN", "OPERADOR"] },
   { href: "/usuarios", label: "Usuários", icon: Users, roles: ["ADMIN"] }
 ];
 
@@ -27,7 +28,7 @@ export function Sidebar({ role }: { role: Role }) {
   const availableItems = navItems.filter((item) => item.roles.includes(role));
 
   return (
-    <aside className="border-b bg-white md:fixed md:inset-y-0 md:left-0 md:z-20 md:w-64 md:border-b-0 md:border-r">
+    <aside className="border-b bg-white print:hidden md:fixed md:inset-y-0 md:left-0 md:z-20 md:w-64 md:border-b-0 md:border-r">
       <div className="flex h-full flex-col">
         <div className="flex h-16 items-center gap-2 border-b px-5">
           <div className="flex h-9 w-9 items-center justify-center rounded-md bg-primary text-primary-foreground">

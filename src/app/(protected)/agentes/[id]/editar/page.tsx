@@ -28,6 +28,9 @@ export default async function EditAgentPage({ params }: { params: { id: string }
           category: agent.category,
           unit: agent.unit,
           description: agent.description ?? "",
+          supplier: agent.supplier ?? "",
+          shipmentNumber: agent.shipmentNumber ?? "",
+          expirationDate: agent.expirationDate?.toISOString().slice(0, 10) ?? "",
           currentQuantity: toNumber(agent.currentQuantity),
           minimumQuantity: toNumber(agent.minimumQuantity)
         }}

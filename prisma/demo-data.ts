@@ -18,6 +18,9 @@ async function upsertDemoAgent(data: {
   unit: string;
   currentQuantity: number;
   minimumQuantity: number;
+  supplier: string;
+  shipmentNumber: string;
+  expirationDate: Date;
 }) {
   const existing = await prisma.agriculturalAgent.findFirst({
     where: {
@@ -31,6 +34,9 @@ async function upsertDemoAgent(data: {
     category: data.category,
     unit: data.unit,
     description: DEMO_DESCRIPTION,
+    supplier: data.supplier,
+    shipmentNumber: data.shipmentNumber,
+    expirationDate: data.expirationDate,
     currentQuantity: new Prisma.Decimal(data.currentQuantity),
     minimumQuantity: new Prisma.Decimal(data.minimumQuantity)
   };
@@ -148,35 +154,50 @@ async function main() {
       category: "Herbicida",
       unit: "L",
       currentQuantity: 120,
-      minimumQuantity: 50
+      minimumQuantity: 50,
+      supplier: "AgroNorte Distribuidora",
+      shipmentNumber: "REM-GLI-2601",
+      expirationDate: daysFromNow(320)
     }),
     upsertDemoAgent({
       name: "Ureia Granulada",
       category: "Fertilizante",
       unit: "saco",
       currentQuantity: 8,
-      minimumQuantity: 15
+      minimumQuantity: 15,
+      supplier: "Fertilizantes Campo Forte",
+      shipmentNumber: "REM-URE-2602",
+      expirationDate: daysFromNow(180)
     }),
     upsertDemoAgent({
       name: "Calda Bordalesa",
       category: "Fungicida",
       unit: "kg",
       currentQuantity: 35,
-      minimumQuantity: 20
+      minimumQuantity: 20,
+      supplier: "Cooperativa Vale Verde",
+      shipmentNumber: "REM-CAL-2603",
+      expirationDate: daysFromNow(90)
     }),
     upsertDemoAgent({
       name: "Inseticida Biologico BT",
       category: "Inseticida",
       unit: "L",
       currentQuantity: 6,
-      minimumQuantity: 10
+      minimumQuantity: 10,
+      supplier: "BioControle Brasil",
+      shipmentNumber: "REM-BT-2604",
+      expirationDate: daysFromNow(45)
     }),
     upsertDemoAgent({
       name: "Sementes de Cobertura",
       category: "Semente",
       unit: "kg",
       currentQuantity: 420,
-      minimumQuantity: 200
+      minimumQuantity: 200,
+      supplier: "Sementes Horizonte",
+      shipmentNumber: "REM-SEM-2605",
+      expirationDate: daysFromNow(240)
     })
   ]);
 

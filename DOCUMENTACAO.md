@@ -107,6 +107,9 @@ Dados principais:
 - Categoria.
 - Unidade de medida.
 - Descricao opcional.
+- Fornecedor.
+- Numero da remessa.
+- Data de validade.
 - Quantidade atual.
 - Quantidade minima.
 - Data de cadastro.
@@ -217,6 +220,23 @@ Funcionalidades:
 - Listar usuarios cadastrados.
 - Definir perfil ADMIN ou OPERADOR.
 
+### 5.7 Relatorios
+
+Rota:
+
+- `/relatorios`
+
+Funcionalidades:
+
+- Filtrar movimentacoes por agente agricola.
+- Filtrar entradas e saidas por periodo.
+- Visualizar quantidade de registros de entrada e consumo.
+- Consultar resumo por agente e unidade de medida.
+- Visualizar fornecedor, remessa e validade no resumo.
+- Consultar movimentacoes detalhadas.
+- Exportar todas as movimentacoes filtradas em CSV.
+- Imprimir o relatorio ou salvar como PDF pelo navegador.
+
 ## 6. Regras de negocio
 
 1. A quantidade atual de um agente agricola nunca pode ficar negativa.
@@ -295,6 +315,9 @@ Campos:
 - category.
 - unit.
 - description.
+- supplier.
+- shipmentNumber.
+- expirationDate.
 - currentQuantity.
 - minimumQuantity.
 - createdAt.

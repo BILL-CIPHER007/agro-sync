@@ -45,6 +45,9 @@ model AgriculturalAgent {
   category        String
   unit            String
   description     String?
+  supplier        String?
+  shipmentNumber  String?
+  expirationDate  DateTime?
   currentQuantity Decimal          @default(0) @db.Decimal(12, 2)
   minimumQuantity Decimal          @default(0) @db.Decimal(12, 2)
   createdAt       DateTime         @default(now())
@@ -54,6 +57,8 @@ model AgriculturalAgent {
 
   @@index([name])
   @@index([category])
+  @@index([supplier])
+  @@index([expirationDate])
 }
 
 model StockMovement {

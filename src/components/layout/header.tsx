@@ -9,7 +9,7 @@ export function Header({
   role: "ADMIN" | "OPERADOR";
 }) {
   return (
-    <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b bg-background/95 px-4 backdrop-blur md:px-6">
+    <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b bg-background/95 px-4 backdrop-blur print:hidden md:px-6">
       <div>
         <p className="text-sm text-muted-foreground">Sistema de gestão</p>
         <h1 className="text-lg font-semibold tracking-normal">AgroSync</h1>

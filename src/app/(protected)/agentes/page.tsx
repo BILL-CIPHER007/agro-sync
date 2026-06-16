@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import { AgentRowActions } from "@/components/agentes/agent-row-actions";
@@ -39,8 +40,16 @@ export default async function AgentsPage({ searchParams }: { searchParams: Searc
     page: single(searchParams.page)
   });
 
-  const where = {
-    ...(filters.q ? { name: { contains: filters.q, mode: "insensitive" as const } } : {}),
+  const where: Prisma.AgriculturalAgentWhereInput = {
+    ...(filters.q
+      ? {
+          OR: [
+            { name: { contains: filters.q, mode: "insensitive" } },
+            { supplier: { contains: filters.q, mode: "insensitive" } },
+            { shipmentNumber: { contains: filters.q, mode: "insensitive" } }
+          ]
+        }
+      : {}),
     ...(filters.category ? { category: filters.category } : {})
   };
 
@@ -89,7 +98,7 @@ export default async function AgentsPage({ searchParams }: { searchParams: Searc
       <Card className="mb-5">
         <CardContent className="pt-5">
           <form className="grid gap-3 md:grid-cols-[1fr_220px_180px_auto]" action="/agentes">
-            <Input name="q" placeholder="Buscar por nome" defaultValue={filters.q} />
+            <Input name="q" placeholder="Nome, fornecedor ou remessa" defaultValue={filters.q} />
             <Select name="category" defaultValue={filters.category}>
               <option value="">Todas as categorias</option>
               {categories.map((item) => (
@@ -115,9 +124,10 @@ export default async function AgentsPage({ searchParams }: { searchParams: Searc
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Nome</TableHead>
-                <TableHead>Categoria</TableHead>
-                <TableHead>Unidade</TableHead>
+                <TableHead>Agente</TableHead>
+                <TableHead>Fornecedor</TableHead>
+                <TableHead>Remessa</TableHead>
+                <TableHead>Validade</TableHead>
                 <TableHead>Quantidade</TableHead>
                 <TableHead>Mínimo</TableHead>
                 <TableHead>Status</TableHead>
@@ -132,9 +142,15 @@ export default async function AgentsPage({ searchParams }: { searchParams: Searc
 
                   return (
                     <TableRow key={agent.id}>
-                      <TableCell className="font-medium">{agent.name}</TableCell>
-                      <TableCell>{agent.category}</TableCell>
-                      <TableCell>{agent.unit}</TableCell>
+                      <TableCell>
+                        <p className="font-medium">{agent.name}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {agent.category} - {agent.unit}
+                        </p>
+                      </TableCell>
+                      <TableCell>{agent.supplier ?? "-"}</TableCell>
+                      <TableCell>{agent.shipmentNumber ?? "-"}</TableCell>
+                      <TableCell>{formatDate(agent.expirationDate)}</TableCell>
                       <TableCell>{formatQuantity(agent.currentQuantity, agent.unit)}</TableCell>
                       <TableCell>{formatQuantity(agent.minimumQuantity, agent.unit)}</TableCell>
                       <TableCell>
@@ -151,7 +167,7 @@ export default async function AgentsPage({ searchParams }: { searchParams: Searc
                 })
               ) : (
                 <TableRow>
-                  <TableCell colSpan={isAdmin ? 8 : 7} className="text-center text-muted-foreground">
+                  <TableCell colSpan={isAdmin ? 9 : 8} className="text-center text-muted-foreground">
                     Nenhum agente encontrado.
                   </TableCell>
                 </TableRow>

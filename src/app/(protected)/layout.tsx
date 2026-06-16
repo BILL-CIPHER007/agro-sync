@@ -14,9 +14,9 @@ export default async function ProtectedLayout({
   return (
     <div className="min-h-screen bg-background">
       <Sidebar role={user.role} />
-      <div className="md:pl-64">
+      <div className="print:pl-0 md:pl-64">
         <Header name={user.name} role={user.role} />
-        <main className="mx-auto w-full max-w-7xl px-4 py-6 md:px-6">{children}</main>
+        <main className="mx-auto w-full max-w-7xl px-4 py-6 print:max-w-none print:p-0 md:px-6">{children}</main>
       </div>
     </div>
   );

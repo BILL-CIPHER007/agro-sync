@@ -64,6 +64,7 @@ export async function registerStockMovementAction(values: StockMovementInput) {
     revalidatePath("/estoque");
     revalidatePath("/agentes");
     revalidatePath("/dashboard");
+    revalidatePath("/relatorios");
 
     return success("Movimentação registrada com sucesso.");
   } catch (error) {

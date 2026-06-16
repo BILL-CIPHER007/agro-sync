@@ -35,6 +35,9 @@ export function AgentForm({ agentId, initialValues }: AgentFormProps) {
       category: "",
       unit: "kg",
       description: "",
+      supplier: "",
+      shipmentNumber: "",
+      expirationDate: "",
       currentQuantity: 0,
       minimumQuantity: 0
     }
@@ -77,6 +80,28 @@ export function AgentForm({ agentId, initialValues }: AgentFormProps) {
               <Label htmlFor="unit">Unidade de medida</Label>
               <Input id="unit" placeholder="kg, L, unidade, saco" {...register("unit")} />
               {errors.unit ? <p className="text-sm text-destructive">{errors.unit.message}</p> : null}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="supplier">Fornecedor</Label>
+              <Input id="supplier" placeholder="Nome do fornecedor" {...register("supplier")} />
+              {errors.supplier ? <p className="text-sm text-destructive">{errors.supplier.message}</p> : null}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="shipmentNumber">Numero da remessa</Label>
+              <Input id="shipmentNumber" placeholder="Ex.: REM-2026-001" {...register("shipmentNumber")} />
+              {errors.shipmentNumber ? (
+                <p className="text-sm text-destructive">{errors.shipmentNumber.message}</p>
+              ) : null}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="expirationDate">Validade</Label>
+              <Input id="expirationDate" type="date" {...register("expirationDate")} />
+              {errors.expirationDate ? (
+                <p className="text-sm text-destructive">{errors.expirationDate.message}</p>
+              ) : null}
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">

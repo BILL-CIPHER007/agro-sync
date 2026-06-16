@@ -176,6 +176,7 @@ export async function receiveRestockRequestAction(id: string) {
     revalidatePath("/estoque");
     revalidatePath("/agentes");
     revalidatePath("/dashboard");
+    revalidatePath("/relatorios");
 
     return success("Pedido recebido e estoque atualizado.");
   } catch (error) {

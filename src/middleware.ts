@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 
-const protectedPrefixes = ["/dashboard", "/agentes", "/estoque", "/pedidos", "/usuarios"];
+const protectedPrefixes = ["/dashboard", "/agentes", "/estoque", "/pedidos", "/relatorios", "/usuarios"];
 const adminPrefixes = ["/usuarios"];
 
 export async function middleware(request: NextRequest) {
